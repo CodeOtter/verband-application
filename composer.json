@@ -20,7 +20,6 @@
         "bin-dir": "Application\bin",
         "vendor-dir": "Packages"
     },
-    "minimum-stability": "dev",
     "extra": {
         "verband-app-dir": "Application",
         "verband-web-dir": "Public"
