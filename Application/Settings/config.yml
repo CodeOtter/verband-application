@@ -1,0 +1,35 @@
+Application:
+  database:
+    driver: pdo_mysql
+    host: localhost
+    port: 3306
+    name: codeotter
+    user: codeotter
+    password: changeme
+
+  compiler:
+    exclude:
+      - "/.buildpath"
+      - "/.project"
+      - "/.settings"
+      - "/*.phar"
+      - "/.git"
+      - "/.htaccess"
+      - "/*.md"
+      - "/*.markdown"
+      - "/test/"
+      - "/tests/"
+      - "/Test/"
+      - "/Tests/"
+      - "/LICENSE"
+      - "/build.properties"
+
+  webServer:
+    parsables:
+      - html
+      - xml
+      - xhtml
+      - js
+      - json
+      - yaml
+      - yml

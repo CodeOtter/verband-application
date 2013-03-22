@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<application>
+	<package name="Verband\Core" />
+	<package name="Doctrine" />
+	<package name="CodeOtter\Rest">
+		<after process="ControllerExecuter" inject="CodeOtter\Diagram\Startup" />
+		<after process="ControllerExecuter" inject="CodeOtter\Commander\Startup" />
+	</package>
+</application>

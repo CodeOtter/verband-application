@@ -1,0 +1,11 @@
+[submodule "Packages/Doctrine/Core"]
+        path = Packages/Doctrine/Core
+        url = git://github.com/codeotter/verband-doctrine.git
+
+[submodule "Packages/Verband/Core"]
+        path = Packages/Verband/Core
+        url = git://github.com/codeotter/verband-package.git
+
+[submodule "Framework"]
+        path = Framework
+        url = git://github.com/codeotter/verband-framework.git

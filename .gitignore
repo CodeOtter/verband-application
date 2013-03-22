@@ -1,0 +1,8 @@
+.buildpath
+.project
+.settings
+behat.phar
+composer.phar
+verband.phar
+Application/Cache/*
+Application/Logs/*
