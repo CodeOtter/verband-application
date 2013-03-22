@@ -1,0 +1,28 @@
+{
+    "name": "verband/application",
+    "description": "A template to build Verband applications",
+    "autoload": {
+        "psr-0": {
+            "": "Packages/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "verband/doctrine": "dev-master",
+        "verband/package": "dev-master",
+        "verband/framework": "dev-master"
+    },
+    "scripts": {
+        "post-install-cmd": [],
+        "post-update-cmd": []
+    },
+    "config": {
+        "bin-dir": "Application\bin",
+        "vendor-dir": "Packages"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "verband-app-dir": "Application",
+        "verband-web-dir": "Public"
+    }
+}
