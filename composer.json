@@ -1,5 +1,5 @@
 {
-    "name": "verband/application",
+    "name": "Verband/Application",
     "description": "A template to build Verband applications",
     "autoload": {
         "psr-0": {
