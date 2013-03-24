@@ -1,6 +1,5 @@
 {
     "name": "verband/application",
-    "type": "composer-installer",
     "description": "A template to build Verband applications",
     "require": {
         "php": ">=5.3.3",
@@ -13,12 +12,11 @@
         "post-update-cmd": []
     },
     "config": {
-        "bin-dir": "Application\bin",
+        "bin-dir": "Application/bin",
         "vendor-dir": "Packages"
     },
     "extra": {
         "verband-app-dir": "Application",
         "verband-web-dir": "Public",
-        "class": "Installer"
     }
 }
