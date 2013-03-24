@@ -17,6 +17,6 @@
     },
     "extra": {
         "verband-app-dir": "Application",
-        "verband-web-dir": "Public",
+        "verband-web-dir": "Public"
     }
 }
