@@ -1,11 +1,6 @@
 {
     "name": "verband/application",
     "description": "A template to build Verband applications",
-    "autoload": {
-        "psr-0": {
-            "": "Packages/"
-        }
-    },
     "require": {
         "php": ">=5.3.3",
 	"Verband/Installer": "dev-master",
