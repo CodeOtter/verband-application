@@ -8,9 +8,10 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "verband/doctrine": "dev-master",
-        "verband/package": "dev-master",
-        "verband/framework": "dev-master"
+	"Verband/Installer": "dev-master",
+	"Verband/Framework": "dev-master",
+	"Verband/Package": "dev-master",
+        "Verband/Doctrine": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [],
