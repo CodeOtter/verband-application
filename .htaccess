@@ -8,5 +8,5 @@
 	SetEnv ENVIRONMENT local
 
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ Application/Instance.php [QSA,L]
+    RewriteRule ^(.*)$ application/Instance.php [QSA,L]
 </IfModule>

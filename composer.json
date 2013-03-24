@@ -3,20 +3,20 @@
     "description": "A template to build Verband applications",
     "require": {
         "php": ">=5.3.3",
-	"verband/framework": "dev-master",
-	"verband/package": "dev-master",
-        "verband/doctrine": "dev-master"
+		"verband/framework": "dev-master",
+        "verband/doctrine": "dev-master",
+        "symfony/yaml": "2.2"
     },
     "scripts": {
         "post-install-cmd": [],
         "post-update-cmd": []
     },
     "config": {
-        "bin-dir": "Application/bin",
-        "vendor-dir": "Packages"
+        "bin-dir": "application/bin",
+        "vendor-dir": "packages"
     },
     "extra": {
-        "verband-app-dir": "Application",
-        "verband-web-dir": "Public"
+        "verband-app-dir": "application",
+        "verband-web-dir": "application/public"
     }
 }

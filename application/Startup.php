@@ -2,7 +2,7 @@
 
 namespace Application;
 
-use Framework\Package;
+use Verband\Framework\Package;
 
 /**
  * 
