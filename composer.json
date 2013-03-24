@@ -3,10 +3,10 @@
     "description": "A template to build Verband applications",
     "require": {
         "php": ">=5.3.3",
-	"Verband/Installer": "dev-master",
-	"Verband/Framework": "dev-master",
-	"Verband/Package": "dev-master",
-        "Verband/Doctrine": "dev-master"
+	"verband/installer": "dev-master",
+	"verband/framework": "dev-master",
+	"verband/package": "dev-master",
+        "verband/doctrine": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [],
