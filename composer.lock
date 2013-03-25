@@ -1,5 +1,5 @@
 {
-    "hash": "a7eaad70c8e67e7e45fd999cc3eebf2b",
+    "hash": "4d31c221e6d5d19d69d55c6ceffce87d",
     "packages": [
         {
             "name": "doctrine/common",
@@ -135,16 +135,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.3.2",
+            "version": "2.3.3",
             "source": {
                 "type": "git",
-                "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "2.3.2"
+                "url": "https://github.com/doctrine/doctrine2.git",
+                "reference": "2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/archive/2.3.2.zip",
-                "reference": "2.3.2",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/2.3.3",
+                "reference": "2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -201,7 +201,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2013-01-07 20:05:04"
+            "time": "2013-03-24 20:43:58"
         },
         {
             "name": "symfony/console",
@@ -251,17 +251,64 @@
             "time": "2013-03-01 06:43:14"
         },
         {
+            "name": "symfony/yaml",
+            "version": "v2.2.0",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "v2.2.0-RC3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.2.0-RC3",
+                "reference": "v2.2.0-RC3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-01-27 16:49:19"
+        },
+        {
             "name": "verband/doctrine",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodeOtter/verband-doctrine.git",
-                "reference": "cc33908651eedda04e05d5c100afec4736ebfa7c"
+                "reference": "2be40d5e4544be64fda10c29770d481d546e91e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodeOtter/verband-doctrine/zipball/cc33908651eedda04e05d5c100afec4736ebfa7c",
-                "reference": "cc33908651eedda04e05d5c100afec4736ebfa7c",
+                "url": "https://api.github.com/repos/CodeOtter/verband-doctrine/zipball/2be40d5e4544be64fda10c29770d481d546e91e5",
+                "reference": "2be40d5e4544be64fda10c29770d481d546e91e5",
                 "shasum": ""
             },
             "require": {
@@ -270,7 +317,7 @@
             "type": "verband-component",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Adds Doctrine functionality to Verband",
-            "time": "2013-03-24 00:24:21"
+            "time": "2013-03-24 23:29:50"
         },
         {
             "name": "verband/framework",
@@ -278,12 +325,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodeOtter/verband-framework.git",
-                "reference": "28a1bcf854d5cf0b8593067c05c697e99096bc80"
+                "reference": "76ac8d9eb01976d76b505d6ecda84104226577cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodeOtter/verband-framework/zipball/28a1bcf854d5cf0b8593067c05c697e99096bc80",
-                "reference": "28a1bcf854d5cf0b8593067c05c697e99096bc80",
+                "url": "https://api.github.com/repos/CodeOtter/verband-framework/zipball/76ac8d9eb01976d76b505d6ecda84104226577cd",
+                "reference": "76ac8d9eb01976d76b505d6ecda84104226577cd",
                 "shasum": ""
             },
             "type": "verband-component",
@@ -292,29 +339,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "The Verband Framework",
-            "time": "2013-03-24 20:21:48"
-        },
-        {
-            "name": "verband/package",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/CodeOtter/verband-package.git",
-                "reference": "3bb28ddb0f2c9ac3594005b5b83f86c3e0948d54"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/CodeOtter/verband-package/zipball/3bb28ddb0f2c9ac3594005b5b83f86c3e0948d54",
-                "reference": "3bb28ddb0f2c9ac3594005b5b83f86c3e0948d54",
-                "shasum": ""
-            },
-            "type": "verband-component",
-            "extra": {
-                "component-path": "Packages/Verband/Core"
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "The standard Verband package containing non-framework functionality.",
-            "time": "2013-03-24 00:24:30"
+            "time": "2013-03-24 23:30:45"
         }
     ],
     "packages-dev": [
@@ -326,7 +351,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "verband/framework": 20,
-        "verband/package": 20,
         "verband/doctrine": 20
     },
     "platform": {

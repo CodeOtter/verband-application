@@ -1,1 +1,1 @@
-../../Packages/doctrine/orm/bin/doctrine.php
+../../packages/doctrine/orm/bin/doctrine.php
