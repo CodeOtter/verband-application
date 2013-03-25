@@ -7,3 +7,4 @@ verband.phar
 Application/Cache/*
 Application/Logs/*
 packages/*
+packageStatus.sh
