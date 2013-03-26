@@ -1,0 +1,17 @@
+#Universal Excludes
+- /.git
+- /.gitignore
+- /.settings
+- /.buildpath
+- /.project
+- /README.md
+- /composer.json
+- /composer.lock
+- /application/Cache
+- /application/Logs
+- /application/Settings/config.test.yml
+- /application/Settings/config.local.yml
+- /application/Settings/config.dev.yml
+- /application/Settings/config.qa.yml
+- /application/Settings/config.staging.yml
++ /.htaccess
