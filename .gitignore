@@ -4,8 +4,8 @@
 behat.phar
 composer.phar
 verband.phar
-Application/Cache/*
-Application/Logs/*
+application/Cache/*
+application/Logs/*
 packages/*
 packageStatus.sh
 composer.lock
