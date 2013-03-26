@@ -3,47 +3,54 @@ Verband
 
 Verband is Dutch for "Context". This framework allows for the dynamic assembly of its process flow via application-defined contexts.
 
-Setup (Ubuntu)
---------------
+Server Installation (Ubuntu)
+----------------------------
 
 ```
+sudo apt-get update
+sudo tasksel install lamp-server
+sudo a2enmod php5
+sudo a2enmod rewrite
 sudo vim /etc/apache2/sites-available/default
+```
 
+Add the following:
+
+```
 <Directory /var/www>
 	AllowOverride All
 </Directory>
 ```
 
-```
-sudo vim /etc/apache2/sites-available/verband.com
-
-<VirtualHost *:80>
-     ServerAdmin webmaster@verband.com
-     ServerName verband.com
-     ServerAlias www.verband.com
-     DocumentRoot /var/www/verband.com/
-     ErrorLog /var/log/apache2/verband.com.error.log
-     CustomLog /var/log/verband.com.access.log combined
-</VirtualHost>
-```
+Site Setup (Apache2)
+--------------------
 
 ```
-sudo a2enmod rewrite
-sudo a2ensite verband.com
-sudo /etc/init.d/apache2 restart
+sudo touch /etc/apache2/sites-available/<yourSite>.com
+echo "<VirtualHost *:80>" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+echo "  ServerAdmin <yourEmail>@<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+echo "  ServerName <yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+echo "  ServerAlias www.<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+echo "  DocumentRoot /var/www/<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+echo "</VirtualHost>" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
+sudo a2ensite <yourSite>.com
+sudo service apache2 restart
+echo "127.0.0.1     <yourSite>.com" | sudo tee -a /etc/hosts
 ```
 
-```
-sudo find /var/www/<location of your verband checkout> -type f -exec chmod 664 {} \;
-sudo find /var/www/<location of your verband checkout> -type d -exec chmod 775 {} \;
-sudo find /var/www/<location of your verband checkout> -type d -exec chmod g+s {} \;
-echo "phar.readonly=0" | sudo tee -a /etc/php5/conf.d/phar.ini
-```
+Project Installation
+--------------------
 
 ```
-git submodule update --init
-cd Application/Doctrine/Core
-git submodule update --init
+cd /var/www
+curl -s http://getcomposer.org/installer | php
+php composer.phar create-project --stability=dev verband/application <yourSite>.com
+rm -fr .git
+git init
+git add .
+git commit -m "first commit"
+git remote add origin <Your Git repository>
+git push -u origin master
 ```
 
 Quick and Dirty
