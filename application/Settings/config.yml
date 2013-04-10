@@ -1,4 +1,5 @@
 Application:
+  name: projectName
   database:
     driver: pdo_mysql
     host: localhost
