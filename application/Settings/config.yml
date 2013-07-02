@@ -1,12 +1,20 @@
 Application:
-  name: projectName
+  # The name of the project
+  name: ProjectName
+  
+  # The webRoot of the project.
+  # If you access the website as "http://localhost/ProjectName/", then "ProjectName/" is your webRoot
+  # If you access the website as "http://localhost/", then "" is your webRoot
+  webRoot: "ProjectName/"
+  
+  # Database configuratoin
   database:
     driver: pdo_mysql
     host: localhost
     port: 3306
-    name: codeotter
-    user: codeotter
-    password: changeme
+    name: databaseName
+    user: databaseUser
+    password: databasePassword
 
   compiler:
     exclude:

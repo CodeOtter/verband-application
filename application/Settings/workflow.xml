@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <application>
-	<package name="Verband\Framework" />
+	<package name="Verband\Framework">
+		<remove process="Verband\Framework\Process\ResourceRouter" />
+	</package>
+	<package name="CodeOtter\Memcached" />
 	<package name="Verband\Doctrine" />
-<!--	<package name="CodeOtter\Rest">
-		<after process="ControllerExecuter" inject="CodeOtter\Diagram\Startup" />
-		<after process="ControllerExecuter" inject="CodeOtter\Commander\Startup" />
-	</package> -->
+	<package name="CodeOtter\Session" />
+	<process name="Verband\Framework\Process\ResourceRouter" />
+	<process name="Verband\Doctrine\Process\Persist" />
 </application>

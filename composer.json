@@ -2,11 +2,16 @@
     "name": "verband/application",
     "description": "A template to build Verband applications",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
 		"verband/framework": "dev-master",
         "verband/doctrine": "dev-master",
-        "symfony/yaml": "2.2"
+        "doctrine/migrations": "@dev",
+        "symfony/yaml": "2.2",
+        "symfony/http-foundation": "v2.2.1",
+        "codeotter/memcached": "dev-master",
+        "codeotter/session": "dev-master"
     },
+    "repositories": [],
     "scripts": {
         "post-install-cmd": [],
         "post-update-cmd": []
@@ -17,6 +22,6 @@
     },
     "extra": {
         "verband-app-dir": "application",
-        "verband-web-dir": "application/public"
+        "verband-web-dir": "application/Public"
     }
 }

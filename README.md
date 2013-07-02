@@ -3,8 +3,8 @@ Verband
 
 Verband is Dutch for "Context". This framework allows for the dynamic assembly of its process flow via application-defined contexts.
 
-Server Installation (Ubuntu)
-----------------------------
+Server Installation (Ubuntu 12.10)
+----------------------------------
 
 ```
 sudo apt-get update
@@ -12,30 +12,25 @@ sudo tasksel install lamp-server
 sudo a2enmod php5
 sudo a2enmod rewrite
 sudo vim /etc/apache2/sites-available/default
+sudo apt-get install memcached
+sudo apt-get install php5-memcached
+sudo apt-get install php-apc
 ```
 
-Add the following:
-
-```
-<Directory /var/www>
-	AllowOverride All
-</Directory>
-```
-
-Site Setup (Apache2)
+Apache Setup
 --------------------
 
 ```
-sudo touch /etc/apache2/sites-available/<yourSite>.com
-echo "<VirtualHost *:80>" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-echo "  ServerAdmin <yourEmail>@<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-echo "  ServerName <yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-echo "  ServerAlias www.<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-echo "  DocumentRoot /var/www/<yourSite>.com" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-echo "</VirtualHost>" | sudo tee -a /etc/apache2/sites-available/<yourSite>.com
-sudo a2ensite <yourSite>.com
+sudo touch /etc/apache2/sites-available/<ProjectName>.com
+echo "<VirtualHost *:80>" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+echo "  ServerAdmin <yourEmail>@<ProjectName>.com" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+echo "  ServerName <ProjectName>.com" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+echo "  ServerAlias www.<ProjectName>.com" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+echo "  DocumentRoot /var/www/<ProjectName>.com" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+echo "</VirtualHost>" | sudo tee -a /etc/apache2/sites-available/<ProjectName>.com
+sudo a2ensite <ProjectName>.com
 sudo service apache2 restart
-echo "127.0.0.1     <yourSite>.com" | sudo tee -a /etc/hosts
+echo "127.0.0.1     <ProjectName>.com" | sudo tee -a /etc/hosts
 ```
 
 Project Installation
@@ -44,200 +39,40 @@ Project Installation
 ```
 cd /var/www
 curl -s http://getcomposer.org/installer | php
-php composer.phar create-project --stability=dev verband/application <yourSite>.com
+php composer.phar create-project --stability=dev verband/application <ProjectName>.com
+mysql -u root -p -e "CREATE USER '<databaseUser>'@'localhost' IDENTIFIED BY  '<databasePassword>';GRANT USAGE ON * . * TO  '<databaseUser>'@'localhost' IDENTIFIED BY '<databasePassword>' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;CREATE DATABASE IF NOT EXISTS  \`<databaseName>\`;GRANT ALL PRIVILEGES ON  \`<databaseName>\` . * TO  '<databaseUser>'@'localhost';"
+php application/Console.php orm:schema-tool:update --force
 rm -fr .git
 git init
 git add .
-git commit -m "first commit"
+git commit -m "First commit"
 git remote add origin <Your Git repository>
 git push -u origin master
 ```
 
-Quick and Dirty
----------------
+Configuration
+-------------
 
-```php
-<?php
+Now open the ```application/Settings/config.yml``` file and change the ```name```, ```webRoot```, and ```database``` settings.
 
-namespace Application\BoringMVCFramework;
-
-use Libraries\Core\Application;
-use Libraries\Core\Context;
-use Libraries\Core\Process;
-use Application\BoringMVCFramework\CheckRequest;
-use Application\BoringMVCFramework\GetUser;
-use Application\BoringMVCFramework\InvokeController;
-use Application\BoringMVCFramework\GenerateView;
-use Application\BoringMVCFramework\Output;
-
-class Startup extends Application {
-
-	public function init() {}
-
-	public function assembleContext($contexts) {
-		$contexts->findChildByNodeName('framework.init')
-			->addChild(Context::stitch(array(
-				new Context('Check Request',						$this, new CheckRequest()),
-				new Context('Use the session and fetch the user',	$this, new GetUser()),
-				new Context('Route the Request to a controller',	$this, new InvokeController()),
-				new Context('Generate a view',						$this, new GenerateView()),
-				new Context('Spit that shit out',					$this, new Output()),
-			)
-		));
-
-		return $contexts;
-	}
-}
-
-```
-
-There.  I have represented the implied ontology of all PHP frameworks in ten actual lines of code.
-
-What the hell just happened?
-----------------------------
-
-Once upon a time, there was a framework for PHP.  And it was good.
-
-Web developers eschewed all other programming patterns and embraced the ORM/MVC/RPC paradigm.  And it was good.
-
-From this, they created thirty more frameworks, each one a slight variation of a previous ontology.  The goodness grew cold.
-
-Web developers pushed this paradigm to the extreme and began doing straight-up code lifts from Ruby and Java.  Then the goodness stopped.
-
-Today, the Framework of Babel reigns supreme in PHP Land.  Each enclave claims their ontology is the best.  This argument is pointless because it is subjective.
-
-Verband doesn't care about your ontology's prowess.  Verband lets you assemble ontology dynamically at run-time.
-
-You're a chatty bitch.  The hell is an ontology?
-------------------------------------------------
-
-_"In theory, an ontology is a "formal, explicit specification of a shared conceptualization". An ontology renders shared vocabulary and taxonomy which models a domain with the definition of objects and/or concepts and their properties and relations" ~[The Wiks](http://en.wikipedia.org/wiki/Ontology_(information_science))_
-
-Every single framework in existence implies their ontology, not from the code base or the patterns they choose, but by assuming a context where it is the center of the universe.  Even the most religious adherence to functional programming cannot ensure an absolute separation of concern between all components of a framework.  As a result, trying to tinker with a framework's process flow to be more reflective of project requirements becomes very problematic.
-
-The ontology of all frameworks assumes a static process flow. (input -> processing -> output)  To get into the space in between processes (where project requirements constantly find themselves wanting to be), things like event listeners and hooks are utilized, but even these are bound to an unresponsive ontology.  At best, they simulate dynamic ontology in a fixed manner.
-
-Verband allows a developer to define application-specific ontologies by chaining together custom contexts.  This liberates the framework from having a fixed ontology, allowing the context of a project to be represented in a functional, reusable, and dynamic way.
-
-Okay, Mr. Philosopy.  Show me the good stuff.
----------------------------------------------
-
-Let's assume the ontology of our framework defines the process flow to be the following:
-
-```
-Framework Initialize->
- Request Initialize->
-  Request Routing->
-   Request Formatting->
-    Request Mapping->
-     Controller Execution->
-      Response Generation->
-       Response Mapping->
-        Response Formatting->
-         Response Dispatch
-```
-
-**Q: How do you traditionally represent this in a framework?**
-
-**A: Spaghetti style.**
-
-The short answer is you can't.  You can only imply the process flow at a conceptual level while enforcing it via scattered invocations of methods and classes throughout your project.
-
-But with Verband, you define the process flow upfront:
+Change the ```name``` property in ```composer.json``` to the Packagist name of your project.
 
 
-```php
-<?php
+Build Setup
+-----------
 
-namespace Application\Rest;
+```TODO: Setup Jenkins instructions```
 
-use Libraries\Core\Application;
-use Libraries\Core\Context;
-use Libraries\Core\Process;
-use Application\Rest\Processes\Formatter;
-use Application\Rest\Processes\TypeMap\Mapper;
-use Application\Rest\Processes\Router;
-use Application\Rest\Processes\Request;
-use Application\Rest\Processes\Response;
+Change ```ProjectName``` to the name of the new project in the following files:
 
-class Startup extends Application {
+__build.xml:__
+```<project name="ProjectName" default="build">```
 
-	public function init() {}
+__build/phpdox.xml:__
+```<project name="ProjectName" source="application" workdir="build/phpdox">```
 
-	public function assembleContext($contexts) {
-		$contexts->findChildByNodeName('framework.init')
-			->addChild(Context::stitch(array(
-				new Context('request.generation',	$this, new Request()),
-				new Context('request.routing',		$this, new Router()),
-				new Context('request.format',		$this, new Formatter()),
-				new Context('request.mapping',		$this, new Mapper()),
-				new Context('controller.execution',	$this, function($context, $lastResult) {
-					return array(
-						'result' => new \Application\Rest\Entities\Test(),
-						'status'=> 200
-					);
-				}),
-				new Context('response.generation',	$this, new Response()),
-				new Context('response.mapping',		$this, new Mapper()),
-				new Context('response.format',		$this, new Formatter()),
-				new Context('response.dispatch',	$this, function($context, $lastResult) {
-					$lastResult->send();
-				})
-			)
-		));
+__build/phpmd.xml:__
+```<ruleset name="PetShapes"```
 
-		return $contexts;
-	}
-}
-
-```
-
-Let me translate that into English:
-
-
-```
-Let us utilize the namespace for a custom application.
-
-Let us define the custom application.
-	
-Let us define the assembleContext process as follows:
-	In the master list of contexts, find the context for the Framework Initialization,
-	then add the following list of stitched contexts (Converts a array of contexts into a tree of contexts)
-	to it as children:
-		'Request Generation', which will utilize the Request() process.
-		'Request Routing', which will utilize the Router() process.
-		'Request Format', which will utilize the Formatter() process.
-		'Request Mapping', which will utilize the Mapper() process.
-		'Controller Execution' which will utilize a closure process.
-		'Response Generation', which will utilize the Response() process.
-		'Response Mapping', which will utilize the Mapper() process.
-		'Response Formatting', which will utilize the Formatter() process.
-		'Response Dispatch' which will utilize a closure process.
-
-```
-If I was to make a call to ```$context->traceHtml()``` in the Response Dispatch process, I would get the following tree of Contexts:
-
-```
-framework.init : Application\Core\Startup.php
-  request.generation : Application\Rest\Processes\Request.php
-    request.format : Application\Rest\Processes\Formatter.php
-      request.mapping : Application\Rest\Processes\TypeMap\Mapper.php
-        request.routing : Application\Rest\Processes\Router.php
-          controller.execute : Application\Rest\Startup.php
-            response.mapping : Application\Rest\Processes\TypeMap\Mapper.php
-              response.format : Application\Rest\Processes\Formatter.php
-                response.generation : Application\Rest\Processes\Response.php
-                  response.dispatch : Application\Rest\Startup.php
-```
-
-The Framework is now aware of its process flow, where each Context is defined.  It even knows what context an Exception is thrown from.
-
-If you notice, the 'framework.init' Context is defined in the Core Application while everything else is defined in the Rest Application.  The ontology of the Project has adapted to become a mixture of Contexts between two different Applications!
-
-General rules about contexts
-----------------------------
-
-* Each Context Process is passed the current context of the workflow.
-* Aditionally, each Context Process is given the output of the previous Context Process. (Think monads)
-* A Context can register the state of a value to itself with ```setState($key, $value)```, which can be accessed by its children via ```getState($key)```.  For example, to access the Framework singleton from any context, simply call ```$context->getState('framework')```.
-* A Project can have many Applications, and each Application defines its own Contexts. 
+__application/Settings/phpunit.xml.dist:__
+```<log type="coverage-html" target="../../build/coverage" title="ProjectName"```

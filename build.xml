@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ProjectName" default="build">
+ <target name="build" depends="prepare,composer,packages,lint,warmup,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb"/>
+
+ <target name="build-parallel" depends="prepare,composer,packages,lint,warmup,tools-parallel,phpunit,phpcb"/>
+
+ <target name="tools-parallel" description="Run tools in parallel">
+  <parallel threadCount="2">
+   <sequential>
+    <antcall target="pdepend"/>
+    <antcall target="phpmd-ci"/>
+   </sequential>
+   <antcall target="phpcpd"/>
+   <antcall target="phpcs-ci"/>
+   <antcall target="phploc"/>
+   <antcall target="phpdox"/>
+  </parallel>
+ </target>
+
+ <target name="clean" description="Cleanup build artifacts">
+  <delete dir="${basedir}/build/api"/>
+  <delete dir="${basedir}/build/code-browser"/>
+  <delete dir="${basedir}/build/coverage"/>
+  <delete dir="${basedir}/build/logs"/>
+  <delete dir="${basedir}/build/pdepend"/>
+ </target>
+
+ <target name="prepare" depends="clean" description="Prepare for build">
+  <mkdir dir="${basedir}/build/api"/>
+  <mkdir dir="${basedir}/build/code-browser"/>
+  <mkdir dir="${basedir}/build/coverage"/>
+  <mkdir dir="${basedir}/build/logs"/>
+  <mkdir dir="${basedir}/build/pdepend"/>
+  <mkdir dir="${basedir}/build/phpdox"/>
+ </target>
+
+ <target name="composer" description="Adds composer">
+  <exec executable="bash">
+   <arg value="-c" />
+   <arg value="curl -s http://getcomposer.org/installer | php" />
+  </exec>
+ </target>
+ 
+ <target name="packages" description="Adds packages">
+  <exec executable="php">
+   <arg value="composer.phar" />
+   <arg value="install" />
+   <arg value="--prefer-dist" />
+  </exec>
+  <exec executable="php">
+   <arg value="composer.phar" />
+   <arg value="dump-autoload" />
+   <arg value="--optimize" />
+  </exec>
+ </target>
+
+ <target name="lint" description="Perform syntax check of sourcecode files">
+  <exec executable="bash" failonerror="true">
+   <arg value="-c" />
+   <arg value="find -L ${basedir}/application -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l" />
+  </exec>
+ </target>
+
+
+ <target name="warmup" description="Builds the application">
+  <antcall target="cache.clean" />
+  <antcall target="cache.router" />
+  <antcall target="cache.packages" />
+ </target>
+
+ <target name="cache.clean" description="Cleanup cache">
+  <delete includeemptydirs="true">
+   <dirset dir="${basedir}/application/Cache/">
+    <include name="*" />
+   </dirset>
+  </delete>
+ </target>
+	
+ <target name="cache.router" description="Creating route cache">
+  <!--
+  <exec executable="${basedir}/application/Console.php">
+   <arg value=" " />
+  </exec>
+  -->
+ </target>
+
+ <target name="cache.packages" description="Creating package cache">
+  <!--
+  <exec executable="${basedir}/application/Console.php">
+   <arg value=" " />
+  </exec>
+  -->
+ </target>
+	
+ <target name="phploc" description="Measure project size using PHPLOC">
+  <exec executable="phploc">
+   <arg value="--log-csv" />
+   <arg value="${basedir}/build/logs/phploc.csv" />
+   <arg path="${basedir}/application" />
+  </exec>
+ </target>
+
+ <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+  <exec executable="pdepend">
+   <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+   <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+   <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+   <arg value="--ignore=${basedir}/build/Stub.php" />
+   <arg path="${basedir}/application" />
+  </exec>
+ </target>
+
+ <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+  <exec executable="phpmd">
+   <arg path="${basedir}/application" />
+   <arg value="text" />
+   <arg value="${basedir}/build/phpmd.xml" />
+  </exec>
+ </target>
+
+ <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+  <exec executable="phpmd">
+   <arg path="${basedir}/application" />
+   <arg value="xml" />
+   <arg value="${basedir}/build/phpmd.xml" />
+   <arg value="--reportfile" />
+   <arg value="${basedir}/build/logs/pmd.xml" />
+  </exec>
+ </target>
+
+ <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+  <exec executable="phpcs">
+   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg path="${basedir}/application" />
+  </exec>
+ </target>
+
+ <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+  <exec executable="phpcs" output="/dev/null">
+   <arg value="--report=checkstyle" />
+   <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg path="${basedir}/application" />
+  </exec>
+ </target>
+
+ <target name="phpcpd" description="Find duplicate code using PHPCPD">
+  <exec executable="phpcpd">
+   <arg value="--log-pmd" />
+   <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+   <arg path="${basedir}/application" />
+  </exec>
+ </target>
+
+ <target name="phpdox" description="Generate API documentation using phpDox">
+  <exec executable="phpdox">
+   <arg value="--file=${basedir}/build/phpdox.xml" />
+  </exec>
+ </target>
+
+ <target name="phpunit" description="Run unit tests with PHPUnit">
+  <exec executable="phpunit" failonerror="true">
+   <arg value="--configuration=${basedir}/application/Settings/phpunit.xml.dist" />
+  </exec>
+ </target>
+
+ <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+  <exec executable="phpcb">
+   <arg value="--log" />
+   <arg path="${basedir}/build/logs" />
+   <arg value="--source" />
+   <arg path="${basedir}/application" />
+   <arg value="--output" />
+   <arg path="${basedir}/build/code-browser" />
+  </exec>
+ </target>
+</project>
