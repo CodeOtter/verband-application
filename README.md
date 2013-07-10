@@ -40,7 +40,7 @@ Project Installation
 cd /var/www
 curl -s http://getcomposer.org/installer | php
 php composer.phar create-project --stability=dev verband/application <ProjectName>.com
-mysql -u root -p -e "CREATE USER '<databaseUser>'@'localhost' IDENTIFIED BY  '<databasePassword>';GRANT USAGE ON * . * TO  '<databaseUser>'@'localhost' IDENTIFIED BY '<databasePassword>' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;CREATE DATABASE IF NOT EXISTS  \`<databaseName>\`;GRANT ALL PRIVILEGES ON  \`<databaseName>\` . * TO  '<databaseUser>'@'localhost';"
+mysql -u root -p -e "CREATE DATABASE \`<databaseName>\`CREATE USER '<databaseUser>'@'localhost' IDENTIFIED BY  '<databasePassword>';GRANT USAGE ON * . * TO  '<databaseUser>'@'localhost' IDENTIFIED BY '<databasePassword>' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;CREATE DATABASE IF NOT EXISTS  \`<databaseName>\`;GRANT ALL PRIVILEGES ON  \`<databaseName>\` . * TO  '<databaseUser>'@'localhost';"
 php application/Console.php orm:schema-tool:update --force
 rm -fr .git
 git init
